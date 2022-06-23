@@ -14,6 +14,11 @@ If bundler is not being used to manage dependencies, install the gem by executin
 
     $ gem install idp_sdk_ruby
 
+## Documentation
+The documentation for the 6Estates IDP API can be found via https://idp-sea.6estates.com/docs
+
+The Python library documentation can be found via https://idp-sdk-doc.6estates.com/ruby/.
+
 ## Usage
 
 ### 1. To Extract Fields in Synchronous Way
