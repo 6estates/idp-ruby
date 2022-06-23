@@ -16,7 +16,17 @@ If bundler is not being used to manage dependencies, install the gem by executin
 
 ## Usage
 
-TODO: Write usage instructions here
+### 1. To Extract Fields in Synchronous Way
+If you just need to do one file at a time
+
+    require 'idp_sdk_ruby'
+    c=IdpSdkRuby::Client.new(region:"test", token:'your-token-here')
+    task_result=c.extraction_task.run_simple_task(file:File.new('path-to-the-file',"rb"), file_type:IdpSdkRuby::FileType.new().full_name_of_the_file_type)
+
+### 2. To Extract Fields in Asynchronous Way
+If you need to do a batch of files
+
+    
 
 ## Development
 
