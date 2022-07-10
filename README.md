@@ -1,4 +1,4 @@
-# IdpSdkRuby
+# 6Estates idp-ruby
 
 A Ruby SDK for communicating with the 6Estates Intelligent Document Processing(IDP) Platform.
 
@@ -15,7 +15,6 @@ If bundler is not being used to manage dependencies, install the gem by executin
 ## Documentation
 The documentation for the 6Estates IDP API can be found via https://idp-sea.6estates.com/docs
 
-The Python library documentation can be found via https://idp-sdk-doc.6estates.com/ruby/.
 
 ## Usage
 
