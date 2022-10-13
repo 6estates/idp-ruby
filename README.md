@@ -18,7 +18,24 @@ The documentation for the 6Estates IDP API can be found via https://idp-sea.6est
 
 ## Usage
 
-### 1. To Extract Fields in Synchronous Way
+### 1. Initialize the 6Estates IDP Client
+6E API Access Token(Deprecated)
+
+```ruby
+    require 'idp_sdk_ruby'
+    
+    c=IdpSdkRuby::Client.new(region:"your-region", token:'your-token-here')
+```
+
+6E API Authorization based on oauth 2.0
+```ruby
+    require 'idp_sdk_ruby'
+    
+    oauth=IdpSdkRuby::oauthutil(region:"your-region", authorization: "your-authorization-here")
+    c=IdpSdkRuby::Client.new(region:"your-region", token:oauth, isOauth:true)
+
+```
+### 2. To Extract Fields in Synchronous Way
 If you just need to do one file at a time
 
 ```ruby
@@ -27,7 +44,7 @@ If you just need to do one file at a time
     task_result=c.extraction_task.run_simple_task(file:File.new('path-to-the-file',"rb"), file_type:IdpSdkRuby::FileType.new().full_name_of_the_file_type)
 ```
 
-### 2. To Extract Fields in Asynchronous Way
+### 3. To Extract Fields in Asynchronous Way
 If you need to do a batch of files
 
 ```ruby
