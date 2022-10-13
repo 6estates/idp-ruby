@@ -6,11 +6,11 @@ A Ruby SDK for communicating with the 6Estates Intelligent Document Processing(I
 
 Install the gem and add to the application's Gemfile by executing:
 
-    $ bundle add idp_sdk_ruby
+    $ bundle add idp_ruby
 
 If bundler is not being used to manage dependencies, install the gem by executing:
 
-    $ gem install idp_sdk_ruby
+    $ gem install idp_ruby
     $ gem install json
     $ gem install rest-client
 
