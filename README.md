@@ -17,6 +17,8 @@ If bundler is not being used to manage dependencies, install the gem by executin
 ## Documentation
 The documentation for the 6Estates IDP API can be found via https://idp-sea.6estates.com/docs
 
+The Rubygems can be found via https://rubygems.org/gems/idp_ruby/versions/0.4.0
+
 
 ## Usage
 
