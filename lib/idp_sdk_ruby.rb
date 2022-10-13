@@ -226,7 +226,7 @@ module IdpSdkRuby
         end
     end
            
-    def IdpSdkRuby.oauth(region:nil, authorization:nil)
+    def IdpSdkRuby.oauthutil(region:nil, authorization:nil)
         if authorization.nil?
             raise IDPConfigurationException.new('Authorization is required')
         end
