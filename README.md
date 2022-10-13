@@ -24,14 +24,14 @@ The documentation for the 6Estates IDP API can be found via https://idp-sea.6est
 6E API Access Token(Deprecated)
 
 ```ruby
-    require 'idp_sdk_ruby'
+    require 'idp_ruby'
     
     c=IdpSdkRuby::Client.new(region:"your-region", token:'your-token-here')
 ```
 
 6E API Authorization based on oauth 2.0
 ```ruby
-    require 'idp_sdk_ruby'
+    require 'idp_ruby'
     
     oauth=IdpSdkRuby::oauthutil(region:"your-region", authorization: "your-authorization-here")
     c=IdpSdkRuby::Client.new(region:"your-region", token:oauth, isOauth:true)
@@ -41,7 +41,7 @@ The documentation for the 6Estates IDP API can be found via https://idp-sea.6est
 If you just need to do one file at a time
 
 ```ruby
-    require 'idp_sdk_ruby'
+    require 'idp_ruby'
     c=IdpSdkRuby::Client.new(region:"test", token:'your-token-here')
     task_result=c.extraction_task.run_simple_task(file:File.new('path-to-the-file',"rb"), file_type:IdpSdkRuby::FileType.new().full_name_of_the_file_type)
 ```
@@ -50,7 +50,7 @@ If you just need to do one file at a time
 If you need to do a batch of files
 
 ```ruby
-    require 'idp_sdk_ruby'
+    require 'idp_ruby'
     c=IdpSdkRuby::Client.new(region:"test", token:'your-token-here')
     task=c.extraction_task.create(file:File.new('path-to-the-file',"rb"), file_type:IdpSdkRuby::FileType.new().full_name_of_the_file_type)
     task_result = result(task.task_id)
