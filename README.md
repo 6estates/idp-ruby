@@ -11,6 +11,8 @@ Install the gem and add to the application's Gemfile by executing:
 If bundler is not being used to manage dependencies, install the gem by executing:
 
     $ gem install idp_sdk_ruby
+    $ gem install json
+    $ gem install rest-client
 
 ## Documentation
 The documentation for the 6Estates IDP API can be found via https://idp-sea.6estates.com/docs
