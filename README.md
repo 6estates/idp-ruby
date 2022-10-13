@@ -56,4 +56,5 @@ If you need to do a batch of files
         sleep(3)
         task_result = result(task.task_id)
     end
+    puts task_result.raw
 ```
