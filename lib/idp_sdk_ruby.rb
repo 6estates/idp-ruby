@@ -95,6 +95,10 @@ module IdpSdkRuby
             # puts json
             @raw=json
         end
+        def raw
+            # puts raw
+            return @raw
+        end
         def status
             # puts @raw['data']['taskStatus']
             return @raw['data']['taskStatus']
@@ -109,9 +113,11 @@ module IdpSdkRuby
     end
 
     class ExtractionTaskClient
-        def initialize(token:nil,region:nil)
+        def initialize(token:nil,region:nil, isOauth:nil)
             @token=token
             @region=region
+            @isOauth=isOauth
+
             if region === 'test'
                 region = ''
             else
@@ -132,19 +138,19 @@ module IdpSdkRuby
             if file.nil?
                 raise IDPException.new("File is required")
             end
-
-            headers = {"X-ACCESS-TOKEN"=> @token}
+            if @isOauth
+                headers = {"Authorization"=> @token}
+            else
+                headers = {"X-ACCESS-TOKEN"=> @token}
+            end
             # files = {"file": file}
             data = {'fileType'=> file_type, 'lang'=> lang, 'customer'=> customer,
                     'customerParam'=> customer_param, 'callback'=> callback,
                     'autoCallback'=>auto_callback, 'callbackMode'=> callback_mode,
                     'hitl'=> hitl, "file"=>file}
             data=data.delete_if{|key,value|value.nil?}
-            # print data
-            # puts ""
 
             r = JSON.parse(RestClient.post(@url_post, data, headers))
-            # puts r
             if r['status']==200
                 return Task.new(r)
             end
@@ -155,9 +161,13 @@ module IdpSdkRuby
             if task_id.nil?
                 raise IDPConfigurationException.new('Task ID is required')
             end
-            headers = {"X-ACCESS-TOKEN" => @token}
+            if @isOauth
+                headers = {"Authorization"=> @token}
+            else
+                headers = {"X-ACCESS-TOKEN"=> @token}
+            end
             r = JSON.parse(RestClient.get(@url_get+task_id.to_s, headers))
-            # puts r
+
             if r['status']==200
                 return TaskResult.new(r)
             end
@@ -183,6 +193,7 @@ module IdpSdkRuby
                 if (ct-=1) == 0
                     raise IDPException.new('Task timeout exceeded: {timeout}')
                 end
+                puts "Task is doing. Please wait."
                 sleep(poll_interval)
                 task_result = result(task.task_id)
                 
@@ -195,7 +206,7 @@ module IdpSdkRuby
     end
 
     class Client
-        def initialize(token:nil,region:nil)
+        def initialize(token:nil,region:nil, isOauth:false)
             if token.nil?
                 raise IDPConfigurationException.new('Token is required')
             end
@@ -206,14 +217,42 @@ module IdpSdkRuby
 
             @token=token
             @region=region
-            @extraction_task=ExtractionTaskClient.new(token:token,region:region)
+            @isOauth=isOauth
+            @extraction_task=ExtractionTaskClient.new(token:token,region:region, isOauth:isOauth)
+
         end
         def extraction_task
             return @extraction_task
         end
     end
-end
+           
+    def IdpSdkRuby.oauth(region:nil, authorization:nil)
+        if authorization.nil?
+            raise IDPConfigurationException.new('Authorization is required')
+        end
+        if ["test", "sea"].count {|x|x==region} == 0
+            raise IDPConfigurationException.new(
+                    "Region is required and limited in ['test','sea']")
+        end
+        if region === 'test'
+               region = '-onp'
+        else
+               region = '-'+region
+        end
+        url_post = "https://oauth"+region + \
+                ".6estates.com/oauth/token?grant_type=client_bind"
+        
+        headers = {"Authorization" => authorization}
+  
+        r = JSON.parse(RestClient.post(url_post, nil, headers))
+        if r['status'] != 200
+            raise IDPException.new(r['message'])
+            return 
+        end
 
-# task = c.extraction_task.create(file:File.new("/home/guo/src/idp-python-sdk/[UOB]202103_UOB_2222.pdf","rb"), file_type:FileType.new().bank_statement)
-# puts task.task_id
-# task_result=c.extraction_task.result(task.task_id)
+        if r['data']['expired']
+            raise IDPException.new("This IDP Authorization is expired, please re-send the request to get new IDP Authorization.")
+        end
+        return r['data']['value']
+    end
+end
