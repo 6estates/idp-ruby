@@ -3,7 +3,7 @@
 
 require 'rest_client'
 require 'json'
-require_relative 'idp_sdk_ruby/version'
+require_relative 'idp_ruby/version'
 
 module IdpSdkRuby
     class FileType
